@@ -28,11 +28,17 @@ def convertFile():
 
     for line in lines:
         outLine = ""
-        for char in line:
-            char = char.lower()
-            binChar = hex_to_bin.get(char)
-            if binChar is not None:
-                outLine = outLine + binChar
+        line = line.strip()
+        print(len(line))
+        if(len(line) == 32):
+            outLine = line
+        elif(len(line) == 8):
+            for char in line:
+                char = char.lower()
+                binChar = hex_to_bin.get(char)
+                if binChar is not None:
+                    outLine = outLine + binChar
+        
         fo.write(outLine + "\n")
         print("Binary: " + outLine)
         assemblyOut += decompileBinaryToAssemblyRV32I(outLine) + "\n"
