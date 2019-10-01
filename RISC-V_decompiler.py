@@ -46,7 +46,8 @@ def getOutFileName(fileIn,fileName):
     fileIn = "/".join(fileIn)
     fileIn = fileIn + "/"
     return fileIn + fileName
-
+def reg(location):
+    return "x" + str(location)
 def decompileBinaryToAssemblyRV32I(line):
     instruction = ""
     if len(line) != 32:
@@ -71,99 +72,99 @@ def decompileBinaryToAssemblyRV32I(line):
         # print("immb:" + immb)
         # print("")
         def LUI():
-            return "LUI " + hex(int(rd,2)) + ", " + hex(int(imm,2))
+            return "LUI " + reg(int(rd,2)) + ", " + hex(int(imm,2))
         def AUIPC():
-            return "AUIPC " + hex(int(rd,2)) + ", " + hex(int(imm,2))
+            return "AUIPC " + reg(int(rd,2)) + ", " + hex(int(imm,2))
         def JAL():
-            return "JAL " + hex(int(rd,2)) + ", " + hex(int(imm,2))
+            return "JAL " + reg(int(rd,2)) + ", " + hex(int(imm,2))
         def JALR():
-            return "JALR " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(immL,2)) 
+            return "JALR " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + hex(int(immL,2)) 
         def B():
             # check if the immb value is correct, unsure NOT correct
             if(int(funct3,2) == 0):
-                return "BEQ " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BEQ " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
             if(int(funct3,2) == 1):
-                return "BNE " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BNE " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
             if(int(funct3,2) == 4):
-                return "BLT " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BLT " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
             if(int(funct3,2) == 5):
-                return "BGE " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BGE " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
             if(int(funct3,2) == 6):
-                return "BLTU " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BLTU " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
             if(int(funct3,2) == 7):
-                return "BGEU " + hex(int(rs1,2)) + ", " + hex(int(rs2,2)) + ", " + hex(int(immb,2))
+                return "BGEU " + reg(int(rs1,2)) + ", " + reg(int(rs2,2)) + ", " + hex(int(immb,2))
         def L():
             if(int(funct3,2) == 0):
-                return "LB " + hex(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + hex(int(rs1,2)) + ")"
+                return "LB " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 1):
-                return "LH " + hex(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + hex(int(rs1,2)) + ")"
+                return "LH " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 2):
-                return "LW " + hex(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + hex(int(rs1,2)) + ")"
+                return "LW " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 4):
-                return "LBU " + hex(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + hex(int(rs1,2)) + ")"
+                return "LBU " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 5):
-                return "LHU " + hex(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + hex(int(rs1,2)) + ")"
+                return "LHU " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
         def S():
             if(int(funct3,2) == 0):
-                return "SB " + hex(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + hex(int(rs1)) + ")"
+                return "SB " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
             if(int(funct3,2) == 1):
-                return "SH " + hex(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + hex(int(rs1)) + ")"
+                return "SH " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
             if(int(funct3,2) == 2):
-                return "SW " + hex(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + hex(int(rs1)) + ")"
+                return "SW " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
         def IMM():
             if(int(funct3,2) == 0):
                 print("rd:" + rd)
                 print("rs1:" + rs1)
                 print("immi:" + immi)
-                return "ADDI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(immi,2))
+                return "ADDI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
 
             if(int(funct3,2) == 2):
-                return "SLTI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(immi,2))
+                return "SLTI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 3):
-                return "SLTIU " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(immi,2))
+                return "SLTIU " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 4):
-                return "XORI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(immi,2))
+                return "XORI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 6):
-                return "ORI " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", "+ hex(int(immi,2))
+                return "ORI " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", "+ hex(int(immi,2))
             if(int(funct3,2) == 7):
-                return "ANDI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(immi,2))
+                return "ANDI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 1):
                 # uses shamt
-                return "SLLI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(shamt,2))
+                return "SLLI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(shamt,2))
             if(int(funct3,2) == 5):
                 if(int(funct7,2) == 0):
                     # uses shamt
-                    return "SRLI " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", "+ hex(int(shamt,2))
+                    return "SRLI " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", "+ hex(int(shamt,2))
                 else:
                     # uses shamt
-                    return "SRAI " + hex(int(rd,2)) + ", " + hex(int(rs1,2))+ ", " + hex(int(shamt,2))
+                    return "SRAI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(shamt,2))
                     
         def OPERATORS():
             if(int(funct3,2) == 0):
                 if(int(funct7 == 0)):
                     #add diff for add/sub
-                    return "ADD " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                    return "ADD " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
                 else:
-                    return "SUB " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                    return "SUB " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             
             if(int(funct3,2) == 1):
-                return "SLL " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "SLL " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 2):
-                return "SLT " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "SLT " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 3):
-                return "SLTU " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "SLTU " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 4):
-                return "XOR " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "XOR " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 1):
                 # add comparison for SRL and SRA
                 if(int(funct7,2) == 0):
-                    return "SRL " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                    return "SRL " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
                 else:
-                    return "SRA " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                    return "SRA " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 6):
-                return "OR " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "OR " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
             if(int(funct3,2) == 7):
-                return "AND " + hex(int(rd,2)) + ", " + hex(int(rs1,2)) + ", " + hex(int(rs2,2))
+                return "AND " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", " + reg(int(rs2,2))
         switch = {
             55 : LUI,
             23 : AUIPC,
