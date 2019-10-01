@@ -68,7 +68,7 @@ def decompileBinaryToAssemblyRV32I(line):
         immi = immL
         shamt = rs2
         funct7 = ''.join(line[:-25])
-        print("opcode: " + opcode)
+        # print("opcode: " + opcode)
         # print("immb:" + immb)
         # print("")
         def LUI():
@@ -106,16 +106,19 @@ def decompileBinaryToAssemblyRV32I(line):
                 return "LHU " + reg(int(rd,2)) + ", " + hex(int(immL,2))+ "(" + reg(int(rs1,2)) + ")"
         def S():
             if(int(funct3,2) == 0):
-                return "SB " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
+                return "SB " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 1):
-                return "SH " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
+                return "SH " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1,2)) + ")"
             if(int(funct3,2) == 2):
-                return "SW " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1)) + ")"
+                print(imms)
+                print(int(rs1,2))
+                print(int(rs2,2))
+                return "SW " + reg(int(rs2,2)) + ", " + hex(int(imms,2)) + "(" + reg(int(rs1,2)) + ")"
         def IMM():
             if(int(funct3,2) == 0):
-                print("rd:" + rd)
-                print("rs1:" + rs1)
-                print("immi:" + immi)
+                # print("rd:" + rd)
+                # print("rs1:" + rs1)
+                # print("immi:" + immi)
                 return "ADDI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
 
             if(int(funct3,2) == 2):
@@ -123,6 +126,7 @@ def decompileBinaryToAssemblyRV32I(line):
             if(int(funct3,2) == 3):
                 return "SLTIU " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 4):
+                print()
                 return "XORI " + reg(int(rd,2)) + ", " + reg(int(rs1,2))+ ", " + hex(int(immi,2))
             if(int(funct3,2) == 6):
                 return "ORI " + reg(int(rd,2)) + ", " + reg(int(rs1,2)) + ", "+ hex(int(immi,2))
