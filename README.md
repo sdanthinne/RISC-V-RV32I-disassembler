@@ -8,3 +8,5 @@ Tkinter must be installed on your version of python for the file chooser.
 3. output file will be in the same directory as the input file.
 
 input.txt is an example input file
+
+currently does NOT work with signed numbers
