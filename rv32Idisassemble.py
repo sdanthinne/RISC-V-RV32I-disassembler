@@ -44,6 +44,43 @@ def convertFile(fileName):
     fo.write("\n" + assemblyOut)
     return assemblyOut
 
+
+def convertToBinary(lines: list):
+    outLines = ""
+    hex_to_bin = {
+        '0' : "0000",
+        '1' : "0001",
+        '2' : "0010",
+        '3' : "0011",
+        '4' : "0100",
+        '5' : "0101",
+        '6' : "0110",
+        '7' : "0111",
+        '8' : "1000",
+        '9' : "1001",
+        'a' : "1010",
+        'b' : "1011",
+        'c' : "1100",
+        'd' : "1101",
+        'e' : "1110",
+        'f' : "1111",
+    }
+    for line in lines:
+        outLine = ""
+        line = line.strip()
+        print(len(line))
+        if(len(line) == 32):
+            outLine = line
+        elif(len(line) == 8):
+            for char in line:
+                char = char.lower()
+                binChar = hex_to_bin.get(char)
+                if binChar is not None:
+                    outLine = outLine + binChar
+        outLines+= outLine + "\n"
+    return outLines.strip().split("\n")
+
+
 def getOutFileName(fileIn,fileName):
     fileIn = fileIn.split("/")
     # print(filename)
@@ -56,6 +93,16 @@ def reg(location: int):
     # makes a register location string from an integer value
     return "x" + str(location)
 
+def translateLines(lines: list):
+    out = ""
+    lines = convertToBinary(lines)
+    print(lines)
+    for i in lines:
+        i = i.strip()
+        
+        print(i)
+        out = decompileBinaryToAssemblyRV32I(i) + "\n"
+    return out
 def decompileBinaryToAssemblyRV32I(line):
     instruction = ""
     if len(line) != 32:

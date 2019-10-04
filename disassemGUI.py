@@ -1,7 +1,7 @@
 from tkinter import Tk, Label, Button, Frame,Entry,Text, Scrollbar
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
-from rv32Idisassemble import convertFile
+from rv32Idisassemble import convertFile, translateLines
 class GUI_main:
     def __init__(self, master):
         self.master = master
@@ -10,6 +10,9 @@ class GUI_main:
         self.label.pack()
         self.open_button = Button(master, text="Open File to Convert", command=self.openFileButtonClick)
         self.open_button.pack()
+
+        self.convert_button = Button(master, text="CONVERT", command=self.convertButtonClick)
+        self.convert_button.pack()
 
 
         self.text_add = Text(master,height = 20, width = 50)
@@ -30,12 +33,16 @@ class GUI_main:
     def openFileButtonClick(self):
         filename = askopenfilename()
         file = open(filename)
-        self.text_add.insert(tk.END,file.readlines())
+        lines = "".join(file.readlines())
+        self.text_add.insert(tk.END,lines)
         self.text_result.insert(tk.END, convertFile(filename))
 
     def convertButtonClick(self):
-        #in-GUI converter button
-        pass  
+        lines = self.text_add.get(1.0,tk.END).strip().split("\n")
+        
+        self.text_result.insert(tk.END,translateLines(lines))
+
+
 
 def openGUI():
     root = Tk()
