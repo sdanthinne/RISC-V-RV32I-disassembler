@@ -1,4 +1,6 @@
 def convertFile(fileName):
+    # this function needs to be split up so that I can use the file contents to load in. 
+    # convert this entire document into a class?
     assemblyOut = ""
     fi = open(fileName, "r")
     fo = open(getOutFileName(fileName, "output.txt"), "w+")
@@ -36,10 +38,11 @@ def convertFile(fileName):
                     outLine = outLine + binChar
         
         fo.write(outLine + "\n")
-        print("Binary: " + outLine)
+        
         assemblyOut += decompileBinaryToAssemblyRV32I(outLine) + "\n"
         print(decompileBinaryToAssemblyRV32I(outLine))
     fo.write("\n" + assemblyOut)
+    return assemblyOut
 
 def getOutFileName(fileIn,fileName):
     fileIn = fileIn.split("/")
