@@ -1,11 +1,7 @@
-from tkinter import Tk
-from tkinter.filedialog import askopenfilename
-def convertFile():
+def convertFile(fileName):
     assemblyOut = ""
-    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-    fi = open(filename, "r")
-    fo = open(getOutFileName(filename, "output.txt"), "w+")
+    fi = open(fileName, "r")
+    fo = open(getOutFileName(fileName, "output.txt"), "w+")
     hex_to_bin = {
         '0' : "0000",
         '1' : "0001",
@@ -52,8 +48,11 @@ def getOutFileName(fileIn,fileName):
     fileIn = "/".join(fileIn)
     fileIn = fileIn + "/"
     return fileIn + fileName
-def reg(location):
+
+def reg(location: int):
+    # makes a register location string from an integer value
     return "x" + str(location)
+
 def decompileBinaryToAssemblyRV32I(line):
     instruction = ""
     if len(line) != 32:
@@ -191,4 +190,4 @@ def decompileBinaryToAssemblyRV32I(line):
     return instruction
 
 if __name__ == "__main__":
-    convertFile()
+    pass
