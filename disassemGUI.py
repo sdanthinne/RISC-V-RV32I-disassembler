@@ -2,6 +2,7 @@ from tkinter import Tk, Label, Button, Frame,Entry,Text, Scrollbar
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from rv32Idisassemble import convertFile, translateLines
+
 class GUI_main:
     def __init__(self, master):
         self.master = master
@@ -39,7 +40,7 @@ class GUI_main:
 
     def convertButtonClick(self):
         lines = self.text_add.get(1.0,tk.END).strip().split("\n")
-        
+        self.text_result.delete(1.0,tk.END)
         self.text_result.insert(tk.END,translateLines(lines))
 
 
